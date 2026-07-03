@@ -35,3 +35,19 @@ module "keypair" {
   public_key_path = var.public_key_path
 
 }
+
+module "compute" {
+
+  source = "./modules/compute"
+
+  project_name = local.project_name
+
+  environment = var.environment
+
+  subnet_id = module.network.public_subnet_id
+
+  security_group_id = module.security.security_group_id
+
+  key_name = module.keypair.key_name
+
+}
