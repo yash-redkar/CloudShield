@@ -1,0 +1,31 @@
+apiVersion: cloudshield.io/v1
+
+kind: Application
+
+metadata:
+  name: teamforge
+
+spec:
+  repository: https://github.com/<YOUR_USERNAME>/TeamForge
+
+  image: docker.io/<YOUR_DOCKERHUB_USERNAME>/teamforge
+
+  namespace: teamforge
+
+  replicas: 1
+
+  service:
+    port: 80
+    targetPort: 3000
+
+  env: []
+
+  resources:
+
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+
+    limits:
+      cpu: "500m"
+      memory: "512Mi"

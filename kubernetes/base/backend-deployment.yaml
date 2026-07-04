@@ -1,0 +1,186 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: backend
+  namespace: teamforge
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: backend
+
+  template:
+    metadata:
+      labels:
+        app: backend
+
+    spec:
+      containers:
+        - name: backend
+          image: yashredkar/teamforge-backend:v1
+          imagePullPolicy: Always
+
+          ports:
+            - containerPort: 8000
+
+          env:
+            - name: PORT
+              valueFrom:
+                secretKeyRef:
+                  name: backend-secret
+                  key: PORT
+
+            - name: NODE_ENV
+              valueFrom:
+                secretKeyRef:
+                  name: backend-secret
+                  key: NODE_ENV
+
+              - name: MONGO_URI
+                valueFrom:
+                  secretKeyRef:
+                    name: backend-secret
+                    key: MONGO_URI
+
+              - name: ACCESS_TOKEN_SECRET
+                valueFrom:
+                  secretKeyRef:
+                    name: backend-secret
+                    key: ACCESS_TOKEN_SECRET
+
+              - name: REFRESH_TOKEN_SECRET
+                valueFrom:
+                  secretKeyRef:
+                    name: backend-secret
+                    key: REFRESH_TOKEN_SECRET
+
+              - name: ACCESS_TOKEN_EXPIRY
+                valueFrom:
+                  secretKeyRef:
+                    name: backend-secret
+                    key: ACCESS_TOKEN_EXPIRY
+
+              - name: REFRESH_TOKEN_EXPIRY
+                valueFrom:
+                  secretKeyRef:
+                    name: backend-secret
+                    key: REFRESH_TOKEN_EXPIRY
+
+              - name: CORS_ORIGIN
+                valueFrom:
+                  secretKeyRef:
+                    name: backend-secret
+                    key: CORS_ORIGIN
+
+              - name: FRONTEND_URL
+                valueFrom:
+                  secretKeyRef:
+                    name: backend-secret
+                    key: FRONTEND_URL
+
+              - name: FORGOT_PASSWORD_REDIRECT_URL
+                valueFrom:
+                  secretKeyRef:
+                    name: backend-secret
+                    key: FORGOT_PASSWORD_REDIRECT_URL
+
+              - name: RAZORPAY_KEY_ID
+                valueFrom:
+                  secretKeyRef:
+                    name: backend-secret
+                    key: RAZORPAY_KEY_ID
+
+              - name: RAZORPAY_KEY_SECRET
+                valueFrom:
+                  secretKeyRef:
+                    name: backend-secret
+                    key: RAZORPAY_KEY_SECRET
+
+              - name: CLOUDINARY_CLOUD_NAME
+                valueFrom:
+                  secretKeyRef:
+                    name: backend-secret
+                    key: CLOUDINARY_CLOUD_NAME
+
+              - name: CLOUDINARY_API_KEY
+                valueFrom:
+                  secretKeyRef:
+                    name: backend-secret
+                    key: CLOUDINARY_API_KEY
+
+              - name: CLOUDINARY_API_SECRET
+                valueFrom:
+                  secretKeyRef:
+                    name: backend-secret
+                    key: CLOUDINARY_API_SECRET
+
+              - name: CLOUDINARY_FOLDER
+                valueFrom:
+                  secretKeyRef:
+                    name: backend-secret
+                    key: CLOUDINARY_FOLDER
+
+              - name: BREVO_SMTP_SERVER
+                valueFrom:
+                  secretKeyRef:
+                    name: backend-secret
+                    key: BREVO_SMTP_SERVER
+
+              - name: BREVO_SMTP_PORT
+                valueFrom:
+                  secretKeyRef:
+                    name: backend-secret
+                    key: BREVO_SMTP_PORT
+
+              - name: BREVO_SMTP_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: backend-secret
+                    key: BREVO_SMTP_USER
+
+              - name: BREVO_SMTP_PASS
+                valueFrom:
+                  secretKeyRef:
+                    name: backend-secret
+                    key: BREVO_SMTP_PASS
+
+              - name: EMAIL_FROM
+                valueFrom:
+                  secretKeyRef:
+                    name: backend-secret
+                    key: EMAIL_FROM
+
+              - name: GOOGLE_CLIENT_ID
+                valueFrom:
+                  secretKeyRef:
+                    name: backend-secret
+                    key: GOOGLE_CLIENT_ID
+
+              - name: GOOGLE_CLIENT_SECRET
+                valueFrom:
+                  secretKeyRef:
+                    name: backend-secret
+                    key: GOOGLE_CLIENT_SECRET
+
+              - name: GOOGLE_OAUTH_REDIRECT_URI
+                valueFrom:
+                  secretKeyRef:
+                    name: backend-secret
+                    key: GOOGLE_OAUTH_REDIRECT_URI
+
+          readinessProbe:
+            httpGet:
+              path: /api/v1/healthcheck
+              port: 8000
+            initialDelaySeconds: 20
+            periodSeconds: 10
+
+          livenessProbe:
+            httpGet:
+              path: /api/v1/healthcheck
+              port: 8000
+            initialDelaySeconds: 40
+            periodSeconds: 20

@@ -17,3 +17,8 @@ terraform.tfvars
 *.tfvars
 
 .terraform.lock.hcl
+
+PROGRESS_LOG.md
+
+# Kubernetes Secrets
+kubernetes/base/backend-secret.yaml
