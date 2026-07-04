@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eux
 
-echo "CloudShield Bootstrap Started "
+echo "CloudShield Bootstrap Started"
 
 apt-get update -y
 
@@ -12,23 +12,22 @@ git \
 unzip \
 ca-certificates
 
-echo "Creating 2GB swap..."
+# Create 2 GB Swap (if not already present)
 
-fallocate -l 2G /swapfile
+if [ ! -f /swapfile ]; then
+    fallocate -l 2G /swapfile
+    chmod 600 /swapfile
+    mkswap /swapfile
+    swapon /swapfile
 
-chmod 600 /swapfile
+    echo '/swapfile none swap sw 0 0' >> /etc/fstab
+fi
 
-mkswap /swapfile
-
-swapon /swapfile
-
-echo "/swapfile none swap sw 0 0" >> /etc/fstab
-
-echo "Swap created successfully"
+# Install k3s (Traefik Enabled)
 
 echo "Installing k3s..."
 
-curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --disable traefik --disable servicelb" sh -
+curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --disable servicelb" sh -
 
 echo "Waiting for k3s..."
 
