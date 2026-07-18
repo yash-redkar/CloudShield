@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: yashredkar/teamforge-frontend:v2
+          image: yashredkar/teamforge-frontend:v3
           imagePullPolicy: Always
 
           ports:
