@@ -17,3 +17,9 @@ variable "security_group_id" {
 variable "key_name" {
   type = string
 }
+
+variable "instance_type" {
+  description = "EC2 instance type"
+  type        = string
+  default     = "t3.micro"
+}

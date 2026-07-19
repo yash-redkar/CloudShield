@@ -15,7 +15,7 @@ resource "aws_instance" "cloudshield" {
 
   ami = data.aws_ami.ubuntu.id
 
-  instance_type = "t3.micro"
+  instance_type = var.instance_type
 
   subnet_id = var.subnet_id
 
@@ -28,6 +28,11 @@ resource "aws_instance" "cloudshield" {
   associate_public_ip_address = true
 
   user_data = file("${path.root}/scripts/bootstrap-k3s.sh")
+
+  root_block_device {
+    volume_size = 20
+    volume_type = "gp3"
+  }
 
   tags = {
     Name = "${var.project_name}-${var.environment}-platform-node"

@@ -50,4 +50,6 @@ module "compute" {
 
   key_name = module.keypair.key_name
 
+  instance_type = var.instance_type
+
 }
