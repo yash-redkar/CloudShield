@@ -18,7 +18,7 @@ fi
 
 echo "Installing k3s with Traefik enabled..."
 
-curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --disable servicelb" sh -
+curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server" sh -
 
 echo "Waiting for k3s..."
 
