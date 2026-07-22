@@ -73,7 +73,18 @@ jobs:
         run: |
           kubectl set image deployment/backend \
           backend=yashredkar/teamforge-backend:${{ github.sha }} \
-          -n teamforge            
+          -n teamforge     
+
       - name: Verify Backend Image
         run: |
           kubectl get deployment backend -n teamforge -o wide
+      
+      - name: Deploy Frontend
+        run: |
+          kubectl set image deployment/frontend \
+          frontend=yashredkar/teamforge-frontend:${{ github.sha }} \
+          -n teamforge
+
+      - name: Verify Frontend Image
+        run: |
+          kubectl describe deployment frontend -n teamforge
