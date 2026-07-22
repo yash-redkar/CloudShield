@@ -47,6 +47,14 @@ jobs:
             -t yashredkar/teamforge-frontend:${{ github.sha }} \
             ./TeamForge/frontend
 
+      - name: Push Backend Image
+        run: |
+          docker push yashredkar/teamforge-backend:${{ github.sha }}
+
+      - name: Push Frontend Image
+        run: |
+          docker push yashredkar/teamforge-frontend:${{ github.sha }}      
+
   deploy:
     name: Deploy to Kubernetes
 
