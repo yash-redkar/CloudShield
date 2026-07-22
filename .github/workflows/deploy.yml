@@ -67,4 +67,13 @@ jobs:
         run: |
           whoami
           pwd
-          kubectl get nodes          
+          kubectl get nodes  
+
+      - name: Deploy Backend
+        run: |
+          kubectl set image deployment/backend \
+          backend=yashredkar/teamforge-backend:${{ github.sha }} \
+          -n teamforge            
+      - name: Verify Backend Image
+        run: |
+          kubectl get deployment backend -n teamforge -o wide
