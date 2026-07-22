@@ -46,3 +46,25 @@ jobs:
             --build-arg NEXT_PUBLIC_API_URL=/api/v1 \
             -t yashredkar/teamforge-frontend:${{ github.sha }} \
             ./TeamForge/frontend
+
+  deploy:
+    name: Deploy to Kubernetes
+
+    needs: build
+
+    runs-on: self-hosted
+
+    env:
+      KUBECONFIG: /home/ubuntu/.kube/config
+
+    steps:
+      - name: Checkout CloudShield
+        uses: actions/checkout@v4
+        with:
+          path: CloudShield
+
+      - name: Verify Runner
+        run: |
+          whoami
+          pwd
+          kubectl get nodes          
