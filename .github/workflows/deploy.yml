@@ -88,3 +88,11 @@ jobs:
       - name: Verify Frontend Image
         run: |
           kubectl describe deployment frontend -n teamforge
+
+      - name: Wait for Backend Rollout
+        run: |
+          kubectl rollout status deployment/backend -n teamforge
+
+      - name: Wait for Frontend Rollout
+        run: |
+          kubectl rollout status deployment/frontend -n teamforge
