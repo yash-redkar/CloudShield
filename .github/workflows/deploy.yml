@@ -21,13 +21,6 @@ jobs:
           repository: yash-redkar/TeamForge
           path: TeamForge
 
-      - name: Verify workspace
-        run: |
-          pwd
-          ls -la
-          ls -la CloudShield
-          ls -la TeamForge
-
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
@@ -53,7 +46,15 @@ jobs:
 
       - name: Push Frontend Image
         run: |
-          docker push yashredkar/teamforge-frontend:${{ github.sha }}      
+          docker push yashredkar/teamforge-frontend:${{ github.sha }}   
+
+      - name: Verify Backend Image Exists
+        run: |
+          docker manifest inspect yashredkar/teamforge-backend:${{ github.sha }}
+
+      - name: Verify Frontend Image Exists
+        run: |
+          docker manifest inspect yashredkar/teamforge-frontend:${{ github.sha }}  
 
   deploy:
     name: Deploy to Kubernetes
@@ -69,33 +70,24 @@ jobs:
       - name: Checkout CloudShield
         uses: actions/checkout@v4
         with:
-          path: CloudShield
+          path: CloudShield 
 
       - name: Verify Runner
         run: |
           whoami
-          pwd
-          kubectl get nodes  
+          kubectl get nodes
 
       - name: Deploy Backend
         run: |
           kubectl set image deployment/backend \
           backend=yashredkar/teamforge-backend:${{ github.sha }} \
           -n teamforge     
-
-      - name: Verify Backend Image
-        run: |
-          kubectl get deployment backend -n teamforge -o wide
       
       - name: Deploy Frontend
         run: |
           kubectl set image deployment/frontend \
           frontend=yashredkar/teamforge-frontend:${{ github.sha }} \
           -n teamforge
-
-      - name: Verify Frontend Image
-        run: |
-          kubectl describe deployment frontend -n teamforge
 
       - name: Wait for Backend Rollout
         run: |
