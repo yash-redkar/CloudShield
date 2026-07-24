@@ -6,22 +6,25 @@ metadata:
   name: teamforge
 
 spec:
-  repository: https://github.com/<YOUR_USERNAME>/TeamForge
+  repository: https://github.com/yash-redkar/TeamForge
 
-  image: docker.io/<YOUR_DOCKERHUB_USERNAME>/teamforge
+  backendImage: yashredkar/teamforge-backend
+
+  frontendImage: yashredkar/teamforge-frontend
 
   namespace: teamforge
 
   replicas: 1
 
-  service:
-    port: 80
-    targetPort: 3000
+  backend:
+    port: 8000
+
+  frontend:
+    port: 3000
 
   env: []
 
   resources:
-
     requests:
       cpu: "100m"
       memory: "128Mi"
